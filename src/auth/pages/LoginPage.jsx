@@ -3,7 +3,7 @@ import { Grid, TextField, Typography, Button, Link } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import AuthLayout from "../layout/AuthLayout";
 import { useForm } from "../../hooks/useForm";
-import { checkingAuth, startGoogleSignIn } from "../../store/auth/thunks";
+import { checkingAuth, startGoogleSignIn, startLoginWithEmailAndPassword } from "../../store/auth/thunks";
 import { useDispatch, useSelector } from "react-redux";
 import { useMemo } from "react";
 
@@ -19,7 +19,7 @@ export const LoginPage = () => {
   const onSubmit = (event) => {
     event.preventDefault();
 
-    dispatch(checkingAuth(email, password));
+    dispatch(startLoginWithEmailAndPassword({email, password}));
   };
 
   const onGoogleSignIn = () => {
