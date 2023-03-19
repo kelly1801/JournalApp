@@ -70,14 +70,14 @@ export const loginWithWithEmailAndPassword = async ({
       password
     );
 
-    const {uid, photoURL, displayName} = resp.user
+    const { uid, photoURL, displayName } = resp.user;
     console.log("login", resp);
     return {
       ok: true,
       uid,
       photoURL,
       displayName,
-      email
+      email,
     };
   } catch (error) {
     return {
@@ -85,4 +85,8 @@ export const loginWithWithEmailAndPassword = async ({
       errorMessage: error.message,
     };
   }
+};
+
+export const logoutFirebase = async () => {
+  return await FirebaseAuth.signOut();
 };
