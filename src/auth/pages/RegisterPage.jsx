@@ -1,5 +1,12 @@
 import { useState, useMemo } from "react";
-import { Grid, TextField, Link, Button, Typography, Alert } from "@mui/material";
+import {
+  Grid,
+  TextField,
+  Link,
+  Button,
+  Typography,
+  Alert,
+} from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import { useForm } from "../../hooks/useForm";
 import { isValidEmail, isValidLength } from "../../helpers/validationHelpers";
@@ -50,7 +57,10 @@ export const RegisterPage = () => {
 
   return (
     <AuthLayout title="Register">
-      <form onSubmit={submitHandler}>
+      <form
+        className="animate__animated animate__fadeIn animate__faster"
+        onSubmit={submitHandler}
+      >
         <Grid container>
           <Grid item xs={12} sx={{ mt: 2 }}>
             <TextField
@@ -93,12 +103,16 @@ export const RegisterPage = () => {
           </Grid>
 
           <Grid container spacing={2} sx={{ mb: 2, mt: 1 }}>
-            
-          <Grid item xs={12} display={!!errorMessage ? '' : 'none'}>
+            <Grid item xs={12} display={!!errorMessage ? "" : "none"}>
               <Alert severity="error"> {errorMessage}</Alert>
             </Grid>
             <Grid item xs={12}>
-              <Button disabled={isCheckingAuth} type="submit" variant="contained" fullWidth>
+              <Button
+                disabled={isCheckingAuth}
+                type="submit"
+                variant="contained"
+                fullWidth
+              >
                 Sign Up
               </Button>
             </Grid>
