@@ -9,6 +9,7 @@ import {
   updateNote,
 } from "./journalSlice";
 import { loadNotes } from "../../helpers/loadNotes";
+import { fileUpload } from "../../helpers/fileUpload";
 
 export const startNewNote = () => {
   return async (dispatch, getState) => {
@@ -51,5 +52,15 @@ export const startSavingNote = () => {
     const docRef = doc(FirebaseDB, `${uid}/journal/notes/${activeNote.id}`);
     await setDoc(docRef, noteToFirestore, { merge: true });
     dispatch(updateNote(activeNote));
+  };
+};
+
+export const startUploadingFiles = (files = []) => {
+  return async (dispatch) => {
+    dispatch(setSaving());
+
+    const fileUploadPromises = Object.values(files).map((file) => fileUpload(file));
+    const photosUrl = await Promise.all(fileUploadPromises);
+    console.log(photosUrl);
   };
 };
