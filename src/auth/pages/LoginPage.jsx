@@ -18,13 +18,14 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { useMemo } from "react";
 
+const formData= {
+  email: "",
+  password: "",
+}
 export const LoginPage = () => {
   const dispatch = useDispatch();
   const { status, errorMessage } = useSelector((state) => state.auth);
-  const { email, password, onInputChange, formState, onResetForm } = useForm({
-    email: "",
-    password: "",
-  });
+  const { email, password, onInputChange, formState, onResetForm } = useForm(formData);
 
   const isAuthing = useMemo(() => status === "checking", [status]);
   const onSubmit = (event) => {

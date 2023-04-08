@@ -5,6 +5,8 @@ import {
   savingNewNote,
   setActiveNote,
   setNotes,
+  setSaving,
+  updateNote,
 } from "./journalSlice";
 import { loadNotes } from "../../helpers/loadNotes";
 
@@ -13,9 +15,9 @@ export const startNewNote = () => {
     const { uid } = getState().auth;
     dispatch(savingNewNote());
     const newNote = {
-      title: "Riooooo de Janeiro",
-      body: "roma, dubai, new york",
-      date: new Date(),
+      title: "Note Title",
+      body: "",
+      date: new Date().getTime(),
     };
 
     const newDoc = doc(collection(FirebaseDB, `${uid}/journal/notes`));
@@ -28,15 +30,26 @@ export const startNewNote = () => {
   };
 };
 
-export const startLoadingNotes = (id = "") => {
+export const startLoadingNotes = () => {
   return async (dispatch, getState) => {
     const { uid } = getState().auth;
     if (!uid) throw new Error("uid doesnt exist");
-    console.log({ uid });
-
     const notesFromDb = await loadNotes(uid);
     dispatch(setNotes(notesFromDb));
   };
 };
 
+export const startSavingNote = () => {
+  return async (dispatch, getState) => {
+    dispatch(setSaving());
 
+    const { uid } = getState().auth;
+    const { active: activeNote } = getState().journal;
+    const noteToFirestore = { ...activeNote };
+    delete noteToFirestore.id;
+
+    const docRef = doc(FirebaseDB, `${uid}/journal/notes/${activeNote.id}`);
+    await setDoc(docRef, noteToFirestore, { merge: true });
+    dispatch(updateNote(activeNote));
+  };
+};
