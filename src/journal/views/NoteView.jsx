@@ -1,4 +1,8 @@
-import { SaveOutlined, UploadOutlined } from "@mui/icons-material";
+import {
+  DeleteOutline,
+  SaveOutlined,
+  UploadOutlined,
+} from "@mui/icons-material";
 import { Button, Grid, Typography, TextField, IconButton } from "@mui/material";
 import { ImageGallery } from "../components";
 import { useForm } from "./../../hooks/useForm";
@@ -6,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useMemo, useRef } from "react";
 import { setActiveNote } from "../../store/journal/journalSlice";
 import {
+  startDeletingNotes,
   startSavingNote,
   startUploadingFiles,
 } from "../../store/journal/thunks";
@@ -46,6 +51,10 @@ export const NoteView = () => {
   };
 
   const fileInputRef = useRef();
+
+const onDelete = () => {
+  dispatch(startDeletingNotes())
+}
   return (
     <Grid
       container
@@ -87,8 +96,16 @@ export const NoteView = () => {
           <SaveOutlined sx={{ fontSize: 30, mr: 1 }} />
           Save
         </Button>
+      
       </Grid>
       <Grid container>
+      
+      <Grid container justifyContent={"end"}>
+        <Button onClick={onDelete} sx={{ mt: 2 }} color="error">
+          <DeleteOutline /> 
+          <Typography>Delete</Typography>
+        </Button>
+      </Grid>
         <TextField
           type="text"
           variant="filled"
@@ -112,7 +129,8 @@ export const NoteView = () => {
           minRows={5}
         />
       </Grid>
-      <ImageGallery />
+    
+      <ImageGallery imgList={activeNote.imgUrls} />
     </Grid>
   );
 };

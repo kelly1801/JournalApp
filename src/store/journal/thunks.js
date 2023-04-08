@@ -1,10 +1,12 @@
-import { collection, doc, setDoc } from "firebase/firestore/lite";
+import { collection, deleteDoc, doc, setDoc } from "firebase/firestore/lite";
 import { FirebaseDB } from "../../firebase/config";
 import {
   addNewEmptyNote,
+  deleteNoteById,
   savingNewNote,
   setActiveNote,
   setNotes,
+  setPhotosToActiveNote,
   setSaving,
   updateNote,
 } from "./journalSlice";
@@ -61,6 +63,20 @@ export const startUploadingFiles = (files = []) => {
 
     const fileUploadPromises = Object.values(files).map((file) => fileUpload(file));
     const photosUrl = await Promise.all(fileUploadPromises);
-    console.log(photosUrl);
+    dispatch(setPhotosToActiveNote(photosUrl))
   };
 };
+
+export const startDeletingNotes = () => {
+  return async (dispatch, getState) => {
+   const {uid} = getState().auth
+   const {active: activeNote} = getState().journal
+  
+   const docRef = doc(FirebaseDB, `${uid}/journal/notes/${activeNote.id}`)
+   await deleteDoc(docRef)
+
+   dispatch(deleteNoteById(activeNote.id))
+  };
+};
+
+
