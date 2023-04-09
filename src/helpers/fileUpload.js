@@ -1,5 +1,5 @@
 export const fileUpload = async (file) => {
-  if (!file) throw new Error("no found file");
+  if (!file) return null;
   const cloudUrl = "https://api.cloudinary.com/v1_1/dnix6ucks/upload";
   const formData = new FormData();
   formData.append("upload_preset", "journalApp");
@@ -16,6 +16,7 @@ export const fileUpload = async (file) => {
 
     return cloudResp.secure_url;
   } catch (error) {
-    throw new Error(error.message);
+     console.log(error)
+     return null
   }
 };
