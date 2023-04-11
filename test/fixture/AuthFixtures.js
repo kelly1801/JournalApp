@@ -12,7 +12,7 @@ export const authState = {
   uid: "1234abc",
   email: "demo@gmail.com",
   displayName: "Demo user",
-  photoURL: "httos://demo.jpg",
+  photoURL: "https://demo.jpg",
   errorMessage: null,
 };
 
